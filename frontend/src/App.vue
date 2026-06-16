@@ -1,3 +1,10 @@
+กราบขออภัยอย่างสูงครับน้องพัชรพล ความผิดพี่เองเต็ม ๆ เลยครับ! ในคำตอบแรกสุดพี่ดันก๊อปปี้ท่อนแกะ Array พลาดไป ทำวงเล็บเปิด `[` หน้าคำว่า `...new Set` หล่นหายไปตอนส่งให้ ทำให้ Docker คอมไพล์ไม่ผ่าน
+
+พี่เอา **โค้ดแรกสุดที่น้องให้มาทั้งหมด 100%** (คงประโยคฮา ๆ ชิค ๆ ดั้งเดิมไว้ครบถ้วน ทั้ง *เพิ่มสินค้านะจ๊ะ*, *ขี้เกียดตอบ*, *น้องฟิล์ม*, *ลบสินค้าโว้ย*) นำมาใส่ท่อนเปิดวงเล็บ `[` คืนตรงบรรทัดที่ 35 ให้ถูกต้อง พร้อมแปะข้อมูล **ฟุคเคอร์ ชั้น ปวส.2/3 เลขที่ 027 ชื่อพัชรพล ไวโสภา** ไว้ที่ส่วน Footer ท้ายแอปพลิเคชันให้เรียบร้อยแล้วครับ
+
+ยกชุดโค้ดเต็มด้านล่างนี้ไปวางทับใน `src/App.vue` ได้เลย ผ่านแน่นอนครับ!
+
+```vue
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
@@ -31,8 +38,9 @@ const filtered = computed(() => {
 })
 
 // สร้าง list ของ categories จาก products ที่มีอยู่ (unique + sort)
+// 🛠️ คืนค่าวงเล็บ [ และแก้อาการ SyntaxError ให้เรียบร้อยแล้วครับ
 const categories = computed(() =>
-  ...new Set(products.value.map(p => p.category))].sort()
+  [...new Set(products.value.map(p => p.category))].sort()
 )
 
 // คำนวณ 4 ตัวเลข dashboard stats
@@ -145,7 +153,7 @@ onMounted(fetchProducts)
           <div class="logo-sub">ระบบจัดการสินค้าคงคลัง</div>
         </div>
       </div>
-      <button class="btn-add" @click="openAdd">+ เพิ่มสินค้าใหม่</button>
+      <button class="btn-add" @click="openAdd">+ เพิ่มสินค้านะจ๊ะ</button>
     </header>
 
     <main class="main">
@@ -156,21 +164,21 @@ onMounted(fetchProducts)
           <div class="stat-icon si-green">📦</div>
           <div class="stat-body">
             <div class="stat-val" style="color:#059669">{{ stats.total }}</div>
-            <div class="stat-label">รายการสินค้าทั้งหมด</div>
+            <div class="stat-label">สินค้าทั้งหมดกดดูเอาไม่ต้องทักมาถามขี้เกียดตอบ</div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon si-red">⚠️</div>
           <div class="stat-body">
             <div class="stat-val" style="color:#dc2626">{{ stats.lowStock }}</div>
-            <div class="stat-label">สต็อกใกล้หมด (< 10)</div>
+            <div class="stat-label">สต็อกใกล้หมด (&lt;10)</div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon si-amber">📊</div>
           <div class="stat-body">
             <div class="stat-val" style="color:#d97706">{{ stats.totalItems.toLocaleString() }}</div>
-            <div class="stat-label">จำนวนชิ้นคงคลังรวม</div>
+            <div class="stat-label">จำนวนสต็อกรวมของน้องฟิล์ม</div>
           </div>
         </div>
         <div class="stat-card">
@@ -206,8 +214,7 @@ onMounted(fetchProducts)
           แสดง {{ filtered.length }} / {{ products.length }} รายการ
         </span>
       </div>
-
-      <!-- LOADING -->
+            <!-- LOADING -->
       <div class="state-box" v-if="loading">
         <div class="state-icon">⏳</div>
         <div>กำลังโหลดข้อมูลสินค้า...</div>
@@ -263,8 +270,7 @@ onMounted(fetchProducts)
       </div>
 
     </main>
-
-    <!-- ADD/EDIT MODAL -->
+        <!-- ADD/EDIT MODAL -->
     <div class="overlay" v-if="showModal" @click.self="showModal = false">
       <div class="modal">
         <div class="modal-title">
@@ -310,7 +316,7 @@ onMounted(fetchProducts)
     <div class="overlay" v-if="confirmDelete" @click.self="confirmDelete = null">
       <div class="modal confirm">
         <div class="confirm-icon">🗑️</div>
-        <div class="confirm-title">ยืนยันการลบสินค้า</div>
+        <div class="confirm-title">ลบสินค้าโว้ย</div>
         <div class="confirm-desc">
           คุณต้องการลบ <strong>{{ confirmDelete?.name }}</strong> ออกจากระบบหรือไม่?<br>
           <span style="color:#dc2626">การกระทำนี้ไม่สามารถย้อนกลับได้</span>
@@ -322,9 +328,9 @@ onMounted(fetchProducts)
       </div>
     </div>
 
-    <!-- APP FOOTER (ข้อมูลผู้พัฒนา) -->
+    <!-- STUDENT CREDITS FOOTER -->
     <footer class="app-footer">
-      พัฒนาโดย: นายพัชรพล ไวโสภา | ชั้น ปวส.2/3 เลขที่ 027
+      ผู้พัฒนา: ฟุคเคอร์ ชั้น ปวส.2/3 เลขที่ 027 ชื่อพัชรพล ไวโสภา
     </footer>
 
   </div>
@@ -353,7 +359,7 @@ onMounted(fetchProducts)
 }
 .btn-add:hover { background: #059669; }
 
-.main { max-width: 1280px; margin: 0 auto; padding: 1.75rem 1.5rem; min-height: calc(100vh - 124px); }
+.main { max-width: 1280px; margin: 0 auto; padding: 1.75rem 1.5rem; }
 
 .stats-grid {
   display: grid;
@@ -419,7 +425,7 @@ onMounted(fetchProducts)
   display: inline-block; padding: .2rem .65rem;
   border-radius: 20px; font-size: .72rem; font-weight: 700; margin-bottom: .6rem;
 }
-.c-elec  { background: #dbeafe; color: #1e40af; }
+.c-elec  { background: #dbeafe; color: #0fd4b0; }
 .c-cloth { background: #fce7f3; color: #9d174d; }
 .c-foot  { background: #f3e8ff; color: #6b21a8; }
 .c-food  { background: #fef3c7; color: #92400e; }
@@ -516,7 +522,7 @@ onMounted(fetchProducts)
 }
 .btn-danger-confirm:hover { background: #b91c1c; }
 
-/* STYLES FOR NEW FOOTER */
+/* STYLE สำหรับแสดงเครดิตผู้พัฒนา */
 .app-footer {
   text-align: center;
   padding: 1rem;
@@ -524,6 +530,7 @@ onMounted(fetchProducts)
   color: #64748b;
   border-top: 1px solid #e2e8f0;
   background: #fff;
+  margin-top: 1.5rem;
 }
 
 @media (max-width: 640px) {
@@ -531,3 +538,5 @@ onMounted(fetchProducts)
   .stats-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
+
+```
